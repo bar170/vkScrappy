@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\UserVk;
+use App\Models\Target;
+
 class Group extends Model
 {
     protected $table ='groups';
-    protected $fillable = ['id', 'name'];
+    protected $fillable = ['id', 'group_vk_id', 'name'];
 
-    public $incrementing = false;
-
-    public function users_vk() {
+    public function tagrets() {
         return $this->belongsToMany(
-            UserVk::class,
+            Target::class,
             'list_groups',
-            'group',
-            'user_vk',
+            'group_id',
+            'target_id',
             'id',
             'id');
     }
