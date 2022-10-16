@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ListFriend extends Model
 {
-    use HasFactory;
+    protected $table ='list_friends';
 }

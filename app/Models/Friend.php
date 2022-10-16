@@ -7,5 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Friend extends Model
 {
-    use HasFactory;
+    protected $table ='friends';
+
+    public $incrementing = false;
+
+    public function users_vk() {
+        return $this->belongsToMany(
+            UserVk::class,
+            'list_friends',
+            'friend',
+            'user_vk',
+            'id',
+            'id');
+    }
 }
