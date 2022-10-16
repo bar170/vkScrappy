@@ -18,8 +18,8 @@ class CreateUsersVkTable extends Migration
             $table->string('gender', 45);
             $table->string('name', 100);
             $table->string('birthday', 45)->nullable();
-            $table->string('link', 45)->nullable();;
-            $table->boolean('probability_bot')->nullable();;
+            $table->string('link', 45)->nullable();
+            $table->integer('probability_bot')->nullable();
             $table->unsignedBigInteger('status_page_id');
             $table->foreign('status_page_id')->references('id')
                 ->on('status_pages')->onDelete('cascade');
