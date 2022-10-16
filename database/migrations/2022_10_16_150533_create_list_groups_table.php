@@ -16,6 +16,7 @@ class CreateListGroupsTable extends Migration
         Schema::create('list_groups', function (Blueprint $table) {
             $table->foreignId('target_id')->constrained('targets', 'id')->cascadeOnDelete();
             $table->foreignId('group_id')->constrained('groups', 'id')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

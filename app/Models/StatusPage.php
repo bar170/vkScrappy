@@ -11,7 +11,7 @@ class StatusPage extends Model
     protected $table ='status_pages';
     protected $fillable = ['name'];
 
-    public function users_vk() {
+    public function targets() {
         return $this->hasMany(Target::class);
     }
 }

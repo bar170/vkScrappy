@@ -11,7 +11,7 @@ class Location extends Model
     protected $table ='locations';
     protected $fillable = ['name'];
 
-    public function users_vk() {
+    public function targets() {
         return $this->hasMany(Target::class);
     }
 }

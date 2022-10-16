@@ -11,7 +11,7 @@ class Group extends Model
     protected $table ='groups';
     protected $fillable = ['id', 'group_vk_id', 'name'];
 
-    public function tagrets() {
+    public function targets() {
         return $this->belongsToMany(
             Target::class,
             'list_groups',

@@ -16,6 +16,7 @@ class CreateListFriendsTable extends Migration
         Schema::create('list_friends', function (Blueprint $table) {
             $table->foreignId('target_id')->constrained('targets', 'id')->cascadeOnDelete();
             $table->foreignId('friend_id')->constrained('friends', 'id')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

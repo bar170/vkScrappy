@@ -16,6 +16,7 @@ class CreateListEventsTable extends Migration
         Schema::create('list_events', function (Blueprint $table) {
             $table->foreignId('event_id')->constrained('events', 'id')->cascadeOnDelete();
             $table->foreignId('target_id')->constrained('targets', 'id')->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
