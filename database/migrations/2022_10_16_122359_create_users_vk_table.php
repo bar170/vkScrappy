@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersVkTable extends Migration
+class CreateTargetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateUsersVkTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_vk', function (Blueprint $table) {
+        Schema::create('targets', function (Blueprint $table) {
             $table->id();
             $table->string('gender', 45);
             $table->string('name', 100);
+            $table->integer('vk_id');
             $table->string('birthday', 45)->nullable();
             $table->string('link', 45)->nullable();
+            $table->string('last_online', 45)->nullable();
             $table->integer('probability_bot')->nullable();
             $table->unsignedBigInteger('status_page_id');
             $table->foreign('status_page_id')->references('id')
@@ -37,6 +39,6 @@ class CreateUsersVkTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_vk');
+        Schema::dropIfExists('targets');
     }
 }

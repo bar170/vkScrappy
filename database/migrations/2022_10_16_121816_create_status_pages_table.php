@@ -27,6 +27,6 @@ class CreateStatusPagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('status_page');
+        Schema::dropIfExists('status_pages');
     }
 }

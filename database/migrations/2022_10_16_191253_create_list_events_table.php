@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFriendsTable extends Migration
+class CreateListEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateFriendsTable extends Migration
      */
     public function up()
     {
-        Schema::create('friends', function (Blueprint $table) {
-            $table->id();
-            $table->integer('vk_id');
-            $table->timestamps();
+        Schema::create('list_events', function (Blueprint $table) {
+            $table->foreignId('event_id')->constrained('events', 'id')->cascadeOnDelete();
+            $table->foreignId('target_id')->constrained('targets', 'id')->cascadeOnDelete();
         });
     }
 
@@ -27,6 +26,6 @@ class CreateFriendsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('friends');
+        Schema::dropIfExists('list_events');
     }
 }

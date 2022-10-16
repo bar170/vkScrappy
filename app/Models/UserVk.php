@@ -14,8 +14,9 @@ use App\Models\Friend;
 class UserVk extends Model
 {
     protected $table ='users_vk';
-    protected $fillable = ['gender', 'name', 'birthday', 'link', 'probability_bot'];
+    protected $fillable = ['id', 'gender', 'name', 'birthday', 'link', 'probability_bot'];
 
+    public $incrementing = false;
     public function event_users() {
         return $this->hasMany(EventUser::class);
     }

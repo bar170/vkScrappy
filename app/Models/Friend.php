@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Friend extends Model
 {
     protected $table ='friends';
-
+    protected $fillable = ['id'];
     public $incrementing = false;
 
     public function users_vk() {

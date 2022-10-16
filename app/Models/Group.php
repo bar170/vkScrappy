@@ -8,7 +8,7 @@ use App\Models\UserVk;
 class Group extends Model
 {
     protected $table ='groups';
-    protected $fillable = ['name'];
+    protected $fillable = ['id', 'name'];
 
     public $incrementing = false;
 
