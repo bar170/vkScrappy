@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\TypeEvent;
 use App\Models\UserVk;
 
-class EventUser extends Model
+class Event extends Model
 {
-    protected $table ='event_users';
+    protected $table ='events';
     protected $fillable = ['value'];
 
-    public function type_events() {
+    public function type_event() {
         return $this->belongsTo(TypeEvent::class);
     }
-    public function users_vk() {
+    public function target() {
         return $this->belongsTo(UserVk::class);
     }
 }
