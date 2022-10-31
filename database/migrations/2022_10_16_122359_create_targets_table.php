@@ -25,9 +25,12 @@ class CreateTargetsTable extends Migration
             $table->unsignedBigInteger('status_page_id');
             $table->foreign('status_page_id')->references('id')
                 ->on('status_pages')->onDelete('cascade');
-            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('location_id')->nullable();;
             $table->foreign('location_id')->references('id')
                 ->on('locations')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')
+                ->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
