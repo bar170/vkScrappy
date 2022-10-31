@@ -24,10 +24,13 @@ class DashboardController extends Controller
 
         if (request()->filled('code')) {
             $code = request()->get('code');
+            Auth::user()->code = $code;
+            Auth::user()->save();
             $request = new AuthVk();
             $token = $request->setToken();
-            $context['code'] =  Auth::user()->code;
-            $context['token'] =  Auth::user()->vktoken;
+
+            $context['code'] =  $code;
+            $context['token'] =  $token;
 
         } else {
             $context['error'] = 'Ошибка при получении кода';

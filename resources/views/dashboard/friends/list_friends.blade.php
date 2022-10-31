@@ -6,7 +6,11 @@
 
 @section('main')
     <div class="col-lg-6">
-        Вывести список друзей
+        <p>Всего - {{ $count}}</p>
+        @foreach ($friends as $friend)
+            <p>{{ $friend }}</p>
+        @endforeach
+
     </div>
 
 @endsection

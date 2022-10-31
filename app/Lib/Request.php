@@ -1,6 +1,8 @@
 <?php
 namespace App\Lib;
 
+use Illuminate\Support\Facades\Auth;
+
 class Request
 {
     private string $method;
@@ -57,7 +59,8 @@ class Request
 
     public function send(string $url, array $params)
     {
-        $ch = curl_init($url . http_build_query($params));
+        $urls = $url . http_build_query($params);
+        $ch = curl_init($url . '?' . http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_HEADER, false);
