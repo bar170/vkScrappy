@@ -108,7 +108,7 @@ class AuthVk extends Request
             'redirect_uri' => $this->redirect_uri,
             'code' => Auth::user()->code
         ];
-        $url = 'https://oauth.vk.com/access_token?';
+        $url = 'https://oauth.vk.com/access_token';
 
         $answer = $this->send($url, $get);
 

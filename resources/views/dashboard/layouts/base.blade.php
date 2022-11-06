@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.css" rel="stylesheet">
 
+{{--    Инициализация пикселя ВК--}}
+    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
+
 </head>
 
 <body id="page-top">
@@ -58,7 +61,7 @@
         <!-- Nav Item - Друзья -->
         <li class="nav-item">
             <a class="nav-link" href="{{ route('friends.list') }}">
-                <i class="fas fa-fw fa-solid fa-key"></i>
+                <i class="fas fa-sharp fa-solid fa-users"></i>
                 <span>Друзья</span></a>
         </li>
 
@@ -407,6 +410,13 @@
 
 <!-- Custom scripts for all pages-->
 <script src="/js/app.js"></script>
+
+
+<script type="text/javascript">
+    VK.init({
+        apiId: 51466183
+    });
+</script>
 
 </body>
 
