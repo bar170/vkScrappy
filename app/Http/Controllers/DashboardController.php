@@ -22,15 +22,12 @@ class DashboardController extends Controller
     public function updateToken() {
         $context['token'] = 'Не определен';
 
-        if (request()->filled('code')) {
-            $code = request()->get('code');
-            Auth::user()->code = $code;
+        if (request()->filled('access_token')) {
+            $vkToken = request()->get('access_token');
+            Auth::user()->vktoken = $vkToken;
             Auth::user()->save();
-            $request = new AuthVk();
-            $token = $request->setToken();
 
-            $context['code'] =  $code;
-            $context['token'] =  $token;
+            $context['token'] =  $vkToken;
 
         } else {
             $context['error'] = 'Ошибка при получении кода';

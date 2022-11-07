@@ -18,7 +18,7 @@ class AuthVk extends Request
     {
         $this->setRedirectUri('http://www.vk-scrappy.loc/home/update_token');
         $this->setDisplay('page');
-        $this->setScope('friends');
+        $this->setScope('friends,groups,photos,wall');
         $this->setResponseType('code');
 
         parent::__construct();
@@ -72,7 +72,35 @@ class AuthVk extends Request
         return $this->urlCode;
     }
 
+    /**
+     * Устанавливает ссылку для Implicit Flow
+     *
+     * @return void
+     */
     public function setUrlCode(): void
+    {
+        https://oauth.vk.com/authorize?client_id=51452294&redirect_uri=http://www.vk-scrappy.loc/home/update_token&display=page&scope=friends,groups,fave&response_type=token&v=5.131
+        $url = 'https://oauth.vk.com/authorize?';
+        $get = [
+            'client_id'  => $this->getClientId(),
+            'redirect_uri' => $this->getRedirectUri(),
+            'display' => $this->getDisplay(),
+            'scope' => $this->getScope(),
+            'response_type' => $this->getResponseType(),
+            'v' => $this->getVersion(),
+        ];
+        $url .= http_build_query($get);
+
+        $this->urlCode = $url;
+
+    }
+
+    /**
+     * Устанавливает ссылку для получения Authorization code flow
+     *
+     * @return void
+     */
+    public function setUrlAuthorizationCodeFlow(): void
     {
         $url = 'https://oauth.vk.com/authorize?';
         $get = [
@@ -106,7 +134,6 @@ class AuthVk extends Request
             'client_id'  => $this->getClientId(),
             'client_secret' => $this->getClientSecret(),
             'redirect_uri' => $this->redirect_uri,
-            'code' => Auth::user()->code
         ];
         $url = 'https://oauth.vk.com/access_token';
 

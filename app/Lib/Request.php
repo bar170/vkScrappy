@@ -12,9 +12,9 @@ class Request
 
     public function __construct()
     {
-        $this->setClientId('51452294');
-        $this->setClientSecret('B0kGr2wHgM4JUQxj3DnN');
-        $this->setVersion('5.131');
+        $this->setClientId(Config::getClientId());
+        $this->setClientSecret(Config::getClientSecret());
+        $this->setVersion(Config::getVersion());
     }
 
     public function getMethod(): string
