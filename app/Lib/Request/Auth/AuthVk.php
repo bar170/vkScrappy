@@ -1,7 +1,7 @@
 <?php
-namespace App\Lib\Auth;
+namespace App\Lib\Request\Auth;
 
-use App\Lib\Request;
+use App\Lib\Request\Request;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -18,12 +18,14 @@ class AuthVk extends Request
     {
         $this->setRedirectUri('http://www.vk-scrappy.loc/home/update_token');
         $this->setDisplay('page');
-        $this->setScope('friends,groups,photos,wall');
-        $this->setResponseType('code');
+        $this->setScope('friends,groups');
+        $this->setResponseType('token');
 
         parent::__construct();
 
-        $this->setUrlCode();
+        $this->setUrl('https://oauth.vk.com/access_token');
+        $this->setMethod('');
+        $this->setUrlAuthorizationCodeFlow();
 
     }
 
@@ -79,7 +81,7 @@ class AuthVk extends Request
      */
     public function setUrlCode(): void
     {
-        https://oauth.vk.com/authorize?client_id=51452294&redirect_uri=http://www.vk-scrappy.loc/home/update_token&display=page&scope=friends,groups,fave&response_type=token&v=5.131
+        $this->setResponseType('token');
         $url = 'https://oauth.vk.com/authorize?';
         $get = [
             'client_id'  => $this->getClientId(),
@@ -102,6 +104,8 @@ class AuthVk extends Request
      */
     public function setUrlAuthorizationCodeFlow(): void
     {
+
+        $this->setResponseType('code');
         $url = 'https://oauth.vk.com/authorize?';
         $get = [
             'client_id'  => $this->getClientId(),
@@ -134,10 +138,9 @@ class AuthVk extends Request
             'client_id'  => $this->getClientId(),
             'client_secret' => $this->getClientSecret(),
             'redirect_uri' => $this->redirect_uri,
+            'code' => Auth::user()->code,
         ];
-        $url = 'https://oauth.vk.com/access_token';
-
-        $answer = $this->send($url, $get);
+        $answer = $this->send($get);
 
         if (isset($answer['access_token'])) {
             $token =  $answer['access_token'];

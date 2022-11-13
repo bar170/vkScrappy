@@ -20,8 +20,6 @@
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.css" rel="stylesheet">
 
-{{--    Инициализация пикселя ВК--}}
-    <script src="https://vk.com/js/api/openapi.js?169" type="text/javascript"></script>
 
 </head>
 
@@ -404,19 +402,13 @@
 <!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/vk_lib170/hash.js"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="/js/app.js"></script>
-
-
-<script type="text/javascript">
-    VK.init({
-        apiId: 51466183
-    });
-</script>
 
 </body>
 

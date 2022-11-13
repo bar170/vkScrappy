@@ -10,6 +10,8 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/welcome.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
+    <script src="/vendor/vk_lib170/hash.js"></script>
+
 </head>
 <body id="page-top">
 <!-- Navigation-->
@@ -74,7 +76,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>zz
 <!-- Footer-->
 <footer class="py-5 bg-dark">
     <div class="container px-4"><p class="m-0 text-center text-white">vk-scrappy.ru - Copyright &copy; 2022</p></div>
@@ -82,6 +84,6 @@
 <!-- Bootstrap core JS-->
 
 <!-- Core theme JS-->
-<script src="js/app.js"></script>
+<script src="/js/app.js"></script>
 </body>
 </html>
