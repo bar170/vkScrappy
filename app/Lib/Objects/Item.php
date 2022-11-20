@@ -8,10 +8,17 @@ class Item
 {
     protected array $item;
 
+    protected const UNDEFINED_FIELD = 'Поле не определено';
+
     public function __construct(array $item)
     {
         $this->item = $item;
         date_default_timezone_set('Europe/Moscow');
+    }
+
+    public function getUndefinedField() : string
+    {
+        return self::UNDEFINED_FIELD;
     }
 
     /**
@@ -21,7 +28,7 @@ class Item
      */
     public function getField($name)
     {
-        $res = 'Поля не существует';
+        $res = self::UNDEFINED_FIELD;
         $field = new Field($name, $this->item);
 
         if ($field->isExist()) {

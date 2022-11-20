@@ -3,11 +3,14 @@ namespace App\Lib\Objects;
 
 class Contact
 {
-    private Item $item;
+    protected Item $item;
+    //Значение неопределенного поля
+    protected string $defaultField;
 
     public function __construct(array $item)
     {
         $this->item = new Item($item);
+        $this->defaultField = $this->item->getUndefinedField();
         date_default_timezone_set('Europe/Moscow');
 
     }
@@ -72,7 +75,7 @@ class Contact
     public function isDeactivated() : bool
     {
         $value = $this->getValue('deactivated');
-        if ($value  == 'Поля не существует') {
+        if ($value  == $this->defaultField) {
             $res = false;
         } else {
             $res = true;
@@ -91,7 +94,7 @@ class Contact
         $res = $this->getValue('deactivated');
 
         switch ($res) {
-            case 'Поля не существует' :
+            case $this->defaultField :
                 $res = 'Профиль существует';
                 break;
             case 'deleted' :
@@ -190,7 +193,7 @@ class Contact
     public function getLastPlatform() : string
     {
         $value = $this->getValue('last_seen');
-        if ($value != 'Поля не существует') {
+        if ($value != $this->defaultField) {
 
             switch ($value['platform']) {
                 case '1' :
@@ -230,7 +233,7 @@ class Contact
     public function getLastSeen() : string
     {
         $res = $this->getValue('last_seen');
-        if ($res != 'Поля не существует') {
+        if ($res != $this->defaultField) {
             $time = $res['time'];
             $res = date('Y-m-d H:i:s', $time);
 

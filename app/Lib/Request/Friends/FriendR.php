@@ -18,20 +18,65 @@ class FriendR extends Request
 
     }
 
-    // Добавить все возможные поля для friends.get
-    public function addAllFields(): void
-    {
-        $allFields = $this->listField->getFieldsByWeight(100);
-        $this->addFields($allFields);
-
-    }
-
-    public function getFriends()
+    public function getFriends($weight = 100, bool $pure = false)
     {
         $this->setMethod('friends.get');
-        $this->addAllFields();
+        $this->setFieldsByWeight($weight);
+
+        if ($pure) {
+            $this->clearAllFields();
+        }
 
         $get = [
+            'fields' => $this->getFields(),
+            'access_token' =>  Auth::user()->vktoken,
+            'v' => $this->getVersion()
+        ];
+
+        $res = $this->send($get);
+
+        return $res;
+    }
+
+    public function getUser($id, $weight = 100, bool $pure = false)
+    {
+        $this->setMethod('users.get');
+
+        $this->setFieldsByWeight($weight);
+
+        if ($pure) {
+            $this->clearAllFields();
+        }
+
+        $get = [
+            'user_ids' => $id,
+            'fields' => $this->getFields(),
+            'access_token' =>  Auth::user()->vktoken,
+            'v' => $this->getVersion()
+        ];
+
+        $res = $this->send($get);
+
+        return $res;
+    }
+
+
+    /**
+     * @param $id
+     * @param bool $pure - при true запрос с минимальным количеством полей
+     * @return mixed
+     */
+    public function getFollowers($id, $weight = 100, bool $pure = false)
+    {
+        $this->setMethod('users.getFollowers');
+        $this->setFieldsByWeight($weight);
+
+        if ($pure) {
+            $this->clearAllFields();
+        }
+
+        $get = [
+            'user_id' => $id,
             'fields' => $this->getFields(),
             'access_token' =>  Auth::user()->vktoken,
             'v' => $this->getVersion()

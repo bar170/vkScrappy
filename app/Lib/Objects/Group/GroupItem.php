@@ -40,7 +40,7 @@ class GroupItem extends Item
         $res = $this->getField('deactivated');
 
         switch ($res) {
-            case 'Поля не существует' :
+            case self::UNDEFINED_FIELD :
                 $res = 'Сообщество существует';
                 break;
             case 'deleted' :

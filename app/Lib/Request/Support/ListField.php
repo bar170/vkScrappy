@@ -27,7 +27,6 @@ class ListField
         $this->addField('bdate' , 'user', 10);
         $this->addField('blacklisted' , 'user', 10);
         $this->addField('blacklisted_by_me' , 'user', 10);
-        $this->addField('books' , 'user', 100);
         $this->addField('can_post' , 'user', 30);
         $this->addField('can_see_all_posts' , 'user', 30);
         $this->addField('can_see_audio' , 'user', 30);
@@ -37,13 +36,9 @@ class ListField
         $this->addField('city' , 'user', 20);
         $this->addField('country' , 'user', 20);
         $this->addField('common_count' , 'user', 10);
-        $this->addField('connections' , 'user', 30);
         $this->addField('contacts' , 'user', 30);
         $this->addField('counters' , 'user', 20);
         $this->addField('domain' , 'user', 20);
-        $this->addField('education' , 'user', 60);
-        $this->addField('exports' , 'user', 50);
-        $this->addField('followers_count' , 'user', 20);
         $this->addField('friend_status' , 'user', 10);
         $this->addField('has_mobile' , 'user', 40);
         $this->addField('has_photo' , 'user', 50);
@@ -71,6 +66,7 @@ class ListField
         $this->addField('screen_name' , 'user', 10);
         $this->addField('sex' , 'user', 0);
         $this->addField('site' , 'user', 40);
+        $this->addField('skype' , 'user', 40);
         $this->addField('status' , 'user', 10);
         $this->addField('trending' , 'user', 90);
         $this->addField('tv' , 'user', 90);

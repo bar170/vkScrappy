@@ -77,12 +77,12 @@ class Request
         $this->url = $url;
     }
 
-    public function getFields(): string
+    protected function getFields(): string
     {
         return $this->fields;
     }
 
-    public function setFields(string $fields): void
+    protected function setFields(string $fields): void
     {
         $this->fields = $fields;
     }
@@ -92,7 +92,7 @@ class Request
      * @param $field
      * @return void
      */
-    public function addField($field): void
+    protected function addField($field): void
     {
         $add = $this->getFields() . ', ' . $field;
         $this->setFields($add);
@@ -103,13 +103,36 @@ class Request
      * @param array $fields
      * @return void
      */
-    public function addFields(array $fields)
+    protected function addFields(array $fields)
     {
         foreach ($fields as $field) {
             $this->addField($field);
         }
     }
 
+    // Очистить все возможные поля
+    protected function clearAllFields(): void
+    {
+        $this->setFields('');
+
+    }
+
+    // Добавить все возможные поля
+    public function addAllFields(): void
+    {
+        $allFields = $this->listField->getFieldsByWeight(100);
+        $this->addFields($allFields);
+
+    }
+
+    // Добавить в запрос поля в зависимости от веса
+    public function setFieldsByWeight($weight): void
+    {
+        $this->clearAllFields();
+        $allFields = $this->listField->getFieldsByWeight($weight);
+        $this->addFields($allFields);
+
+    }
 
     public function send(array $params)
     {
