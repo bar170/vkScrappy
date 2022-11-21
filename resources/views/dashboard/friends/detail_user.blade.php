@@ -21,22 +21,10 @@
                         <div class="col-sm-4">
                             <p><img src="{{ $item->getPhoto200() }}" alt="Ава200">
                             </p>
+                            {{-- Вывод иконок состояний пользователя--}}
+                            <x-icons-user-component :item="$item"/>
 
-                            @foreach($icons as $key => $value)
-                                <i class="{{$value[0]}}"></i> - {{$value[1]}} <br>
-                            @endforeach
-
-                            <i class="fas fa-signal text-success"></i>Онлайн <br>
-                            <i class="fas fa-signal"></i></i>Оффлайн <br>
-                            <i class="fas fa-hourglass-start text-success"></i> Был недавно <br>
-                            <i class="fas fa-hourglass-end text-danger"></i>Был давно <br>
-                            <i class="fas fa-solid fa-ban text-danger"></i>Забанен? <br>
-                            <i class="fas fa-solid fa-trash text-danger"></i> Удален? <br>
-                            <i class="fas fa-user-friends text-primary"></i> Является ли другом <br>
-                            <i class="fas fa-ghost text-primary"></i> Подписаны ли вы <br>
-                            <i class="fas fa-mask text-primary"></i> Подписан ли он <br>
-                            <i class="fas fa-toilet-paper text-danger"></i> Находится ли в чс у вас <br>
-                            <i class="fas fa-book-dead text-danger"></i> Находитесь ли в чс у него <br>
+                            <hr>
                             <i class="fas fa-eye text-success"></i> Добавлен ли в трекер? <br>
                             <i class="fas fa-star text-success"></i> Находится ли в избранном <br>
                         </div>
@@ -46,16 +34,21 @@
                                 Фамилия: <span class="float-right">{{ $item->getLastName() }} </span><br>
                                 Пол: <span class="float-right">{{ $item->getSex() }} </span><br>
                                 Общих друзей: <span class="float-right">{{ $item->getCommonCount() }} </span><br>
-                                Количество подписчиков: <span class="float-right">{{ $item->getFollowersCount() }} </span><br>
+                                Количество подписчиков: <span class="float-right">{{ $item->getCountFollowers() }} </span><br>
                                 Город: <span class="float-right">{{ $item->getCity() }} </span><br>
+                                Страна: <span class="float-right">{{ $item->getCountry() }} </span><br>
                                 Дата рождения: <span class="float-right">{{ $item->getBDate() }} </span><br>
                                 Статус: <span class="float-right">{{ $item->getStatus() }} </span><br>
+                                Отношения: <span class="float-right">{{ $item->getStateAreFriends() }} </span><br>
                             <hr>
 
                             <h6 class="text-primary">Онлайн</h6>
                                 Последний раз онлайн: <span class="float-right">{{ $item->getLastPlatform() }} </span><br>
                                 Дата: <span class="float-right">{{ $item->getLastSeenDate() }} </span><br>
                                 Время: <span class="float-right">{{ $item->getLastSeenTime() }} </span><br>
+                            <hr>
+                            {{-- Вывод счетчиков пользователя--}}
+                            <x-counters-user-component :item="$item"/>
                             <hr>
                             <h6 class="text-primary">Состояние</h6>
                                 Тип: <span class="float-right">{{ $item->getIsClosed() }} </span><br>
@@ -91,7 +84,7 @@
                                 Начало работы: <span class="float-right">{{ $item->getCareerFrom() }} </span><br>
                                 Окончание работы: <span class="float-right">{{ $item->getCareerUntil() }} </span><br>
                             </p>
-
+                            <hr>
                             <h6 class="text-primary">Occupation</h6>
                                 Название: <span class="float-right">{{ $item->getOccupationName() }} </span><br>
                                 Тип: <span class="float-right">{{ $item->getOccupationType() }} </span><br>

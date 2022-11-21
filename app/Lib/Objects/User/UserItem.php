@@ -2,10 +2,104 @@
 namespace App\Lib\Objects\User;
 
 use App\Lib\Objects\Item;
+use App\Lib\Objects\User\Entity\CounterEntity;
+use App\Lib\Objects\User\Entity\OccupationEntity;
+use App\Lib\Request\Friends\FriendR;
 use DateTimeImmutable;
 
 class UserItem extends Item
 {
+
+    private $followers;
+    private $areFreinds;
+    private CounterEntity $counters;
+    private OccupationEntity $occupation;
+
+    public function __construct(array $item, bool $isFull = false)
+    {
+        parent::__construct($item);
+
+        // Создавать дополнительные запросы к апи вк только для детального просмотра
+        if ($isFull) {
+            $this->request = new FriendR();
+            $this->setFollowers();
+            $this->setAreFriends();
+            $this->setCounters();
+            $this->setOccupation();
+        }
+
+    }
+
+    private function setFollowers()
+    {
+        $followers = $this->request->getFollowers($this->getId(), 10, false);
+        if (isset($followers['error'])) {
+            $this->followers = ['count' => $this->getUndefinedField()];
+        } else {
+            $this->followers = $followers['response'];
+        }
+
+    }
+
+    /**
+     * Установить счетчики
+     * @return void
+     */
+    private function setCounters() : void
+    {
+        $entity = $this->getField('counters');
+        $this->counters = new CounterEntity($entity);
+    }
+
+    private function setOccupation() : void
+    {
+        $entity = $this->getField('occupation');
+        $this->occupation = new OccupationEntity($entity);
+    }
+
+    public function getCountFollowers()
+    {
+        return $this->followers['count'];
+    }
+
+    private function setAreFriends()
+    {
+        $areFriends = $this->request->areFriends($this->getId());
+        if (isset($areFriends['error'])) {
+            $friendStatus = $this->getUndefinedField();
+        } else {
+            $friendStatus = $areFriends['response'][0]['friend_status'];
+        }
+
+        $this->areFreinds = $friendStatus;
+    }
+
+    public function getAreFriends()
+    {
+        return $this->areFreinds;
+    }
+
+    public function getStateAreFriends(): string
+    {
+        $friendStatus = '';
+
+        switch ($this->areFreinds) {
+            case 0 :
+                $friendStatus = 'Не друзья';
+                break;
+            case 1 :
+                $friendStatus = 'Подписка от вас';
+                break;
+            case 2 :
+                $friendStatus = 'Подписка на вас';
+                break;
+            case 3 :
+                $friendStatus = 'Друг';
+                break;
+        }
+
+        return $friendStatus;
+    }
 
     public function getFirstName(): string
     {
@@ -51,7 +145,7 @@ class UserItem extends Item
     public function isDeactivated() : bool
     {
         $value = $this->getField('deactivated');
-        if ($value  == self::UNDEFINED_FIELD) {
+        if ($value  == $this->getUndefinedField()) {
             $res = false;
         } else {
             $res = true;
@@ -70,7 +164,7 @@ class UserItem extends Item
         $res = $this->getField('deactivated');
 
         switch ($res) {
-            case self::UNDEFINED_FIELD :
+            case $this->getUndefinedField() :
                 $res = 'Профиль существует';
                 break;
             case 'deleted' :
@@ -103,7 +197,7 @@ class UserItem extends Item
     public function getStatus() : string
     {
         $res = $this->getField('status');
-        $res = ($res != '' ) ? $res : self::UNDEFINED_FIELD;
+        $res = ($res != '' ) ? $res : $this->getUndefinedField();
         return $res;
     }
 
@@ -170,7 +264,7 @@ class UserItem extends Item
     public function getLastPlatform() : string
     {
         $value = $this->getField('last_seen');
-        if ($value != self::UNDEFINED_FIELD) {
+        if ($value != $this->getUndefinedField()) {
 
             switch ($value['platform']) {
                 case '1' :
@@ -210,7 +304,7 @@ class UserItem extends Item
     public function getLastSeenDate() : string
     {
         $res = $this->getField('last_seen');
-        if ($res != self::UNDEFINED_FIELD) {
+        if ($res != $this->getUndefinedField()) {
             $time = $res['time'];
             $res = date('d-M-Y', $time);
 
@@ -226,7 +320,7 @@ class UserItem extends Item
     public function getRecently($lastSeen) : string
     {
         $res = $this->getField('last_seen');
-        if ($res != self::UNDEFINED_FIELD) {
+        if ($res != $this->getUndefinedField()) {
             $date = $res['time'];
             $now = new DateTimeImmutable();
             $now = $now->getTimestamp();
@@ -248,7 +342,7 @@ class UserItem extends Item
     public function getLastSeenTime() : string
     {
         $res = $this->getField('last_seen');
-        if ($res != self::UNDEFINED_FIELD) {
+        if ($res != $this->getUndefinedField()) {
             $time = $res['time'];
             $res = date('H:i:s', $time);
 
@@ -408,7 +502,19 @@ class UserItem extends Item
     public function getCity() : string
     {
         $res = $this->getField('city');
-        $city = (isset($res['title'])) ? $res['title'] : self::UNDEFINED_FIELD;
+        $city = (isset($res['title'])) ? $res['title'] : $this->getUndefinedField();
+
+        return $city;
+    }
+
+    /**
+     * Информация о городе, указанном на странице пользователя в разделе «Контакты»
+     * @return string
+     */
+    public function getCountry() : string
+    {
+        $res = $this->getField('country');
+        $city = (isset($res['title'])) ? $res['title'] : $this->getUndefinedField();
 
         return $city;
     }
@@ -436,7 +542,7 @@ class UserItem extends Item
         $res = $this->getField('site');
 
         if ($res == '') {
-            $res = self::UNDEFINED_FIELD;
+            $res = $this->getUndefinedField();
         }
 
         return $res;
@@ -467,7 +573,7 @@ class UserItem extends Item
     public function getCareer()
     {
         $res = $this->getField('career');
-        if ($res != self::UNDEFINED_FIELD) {
+        if ($res != $this->getUndefinedField()) {
             if (count($res) < 1) {
                 $res[0]['company'] = 'Информация была удалена';
                 $res[0]['position'] = 'Информация была удалена';
@@ -484,7 +590,7 @@ class UserItem extends Item
     public function getCompany() : string
     {
         $res = $this->getCareer();
-        $company =  (isset($res['company'])) ? $res['company'] : self::UNDEFINED_FIELD;
+        $company =  (isset($res['company'])) ? $res['company'] : $this->getUndefinedField();
         return $company;
     }
 
@@ -495,7 +601,7 @@ class UserItem extends Item
     public function getCityName() : string
     {
         $res = $this->getCareer();
-        $res =  (isset($res['city_name'])) ? $res['city_name'] : self::UNDEFINED_FIELD;
+        $res =  (isset($res['city_name'])) ? $res['city_name'] : $this->getUndefinedField();
         return (string) $res;
     }
 
@@ -506,7 +612,7 @@ class UserItem extends Item
     public function getPosition() : string
     {
         $res = $this->getCareer();
-        $res =  (isset($res['position'])) ? $res['position'] : self::UNDEFINED_FIELD;
+        $res =  (isset($res['position'])) ? $res['position'] : $this->getUndefinedField();
         return (string) $res;
     }
 
@@ -517,7 +623,7 @@ class UserItem extends Item
     public function getCareerFrom() : string
     {
         $res = $this->getCareer();
-        $res =  (isset($res['from'])) ? $res['from'] : self::UNDEFINED_FIELD;
+        $res =  (isset($res['from'])) ? $res['from'] : $this->getUndefinedField();
         return (string)  $res;
     }
 
@@ -528,64 +634,103 @@ class UserItem extends Item
     public function getCareerUntil() : string
     {
         $res = $this->getCareer();
-        $res =  (isset($res['until'])) ? $res['until'] : self::UNDEFINED_FIELD;
+        $res =  (isset($res['until'])) ? $res['until'] : $this->getUndefinedField();
         return (string) $res;
     }
 
-    /**
-    Информация об образовании
-     */
-    public function getOccupation()
-    {
-        $res = $this->getField('occupation');
-        if ($res != self::UNDEFINED_FIELD) {
-            if (count($res) < 1) {
-                $res['name'] = 'Информация была удалена';
-                $res['type'] = 'Информация была удалена';
-            }
-        }
-        return $res;
-    }
 
     /**
-     * Название университета
+     * Название деятельности
      * @return string
      */
     public function getOccupationName() : string
     {
-        $res = $this->getOccupation();
-        $res =  (isset($res['name'])) ? $res['name'] : self::UNDEFINED_FIELD;
-        return (string) $res;
+        return $this->occupation->getValue('name');
     }
 
     /**
-     * Название факультета
+     * Тип деятельности
      * @return string
      */
     public function getOccupationType() : string
     {
-        $res = $this->getOccupation();
-        $res =  (isset($res['type'])) ? $res['type'] : self::UNDEFINED_FIELD;
-        return (string) $res;
+        return $this->occupation->getValue('type');
     }
 
     /**
-     * Год окончания
+     * Год окончания деятельности
      * @return string
      */
     public function getGraduationYear() : string
     {
-        $res = $this->getOccupation();
-        $res =  (isset($res['graduate_year'])) ? $res['graduate_year'] : self::UNDEFINED_FIELD;
-        return (string) $res;
+        return $this->occupation->getValue('graduate_year');
     }
 
 
-    public function getFollowersCount() : string
+    public function getAlbumsCounter(): string
     {
-        $res = $this->getField('followers_count');
-
-        return (string) $res;
+        return $this->counters->getAlbumsCounter();
     }
+
+    public function getVideosCounter(): string
+    {
+        return $this->counters->getVideosCounter();
+    }
+
+    public function getAudiosCounter(): string
+    {
+        return $this->counters->getAudiosCounter();
+    }
+
+    public function getPhotosCounter(): string
+    {
+        return $this->counters->getPhotosCounter();
+    }
+
+    public function getFriendsCounter(): string
+    {
+        return $this->counters->getFriendsCounter();
+    }
+
+    public function getOnlineFriendsCounter(): string
+    {
+        return $this->counters->getOnlineFriendsCounter();
+    }
+
+    public function getMutualFriendsCounter(): string
+    {
+        return $this->counters->getMutualFriendsCounter();
+    }
+
+    public function getUserVideosCounter(): string
+    {
+        return $this->counters->getUserVideosCounter();
+    }
+
+    public function getFollowersCounter(): string
+    {
+        return $this->counters->getFollowersCounter();
+    }
+
+    public function getPagesCounter(): string
+    {
+        return $this->counters->getPagesCounter();
+    }
+
+    public function getSubscriptionsCounter(): string
+    {
+        return $this->counters->getSubscriptionsCounter();
+    }
+
+    public function getPostsCounter(): string
+    {
+        return $this->counters->getPostsCounter();
+    }
+
+    public function getClipsFollowersCounter(): string
+    {
+        return $this->counters->getClipsFollowersCounter();
+    }
+
 
 }

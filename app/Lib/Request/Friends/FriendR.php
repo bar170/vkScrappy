@@ -60,7 +60,6 @@ class FriendR extends Request
         return $res;
     }
 
-
     /**
      * @param $id
      * @param bool $pure - при true запрос с минимальным количеством полей
@@ -78,6 +77,30 @@ class FriendR extends Request
         $get = [
             'user_id' => $id,
             'fields' => $this->getFields(),
+            'access_token' =>  Auth::user()->vktoken,
+            'v' => $this->getVersion()
+        ];
+
+        $res = $this->send($get);
+
+        return $res;
+    }
+
+    /**
+     * Возвращает информацию о том, добавлен ли текущий пользователь в друзья у указанных пользователей.
+     * 0 – пользователь не является другом;
+     * 1 – отправлена заявка/подписка пользователю;
+     * 2 – имеется входящая заявка/подписка от пользователя;
+     * 3 – пользователь является другом.
+     * @param $id
+     * @return void
+     */
+    public function areFriends($id)
+    {
+        $this->setMethod('friends.areFriends');
+
+        $get = [
+            'user_ids' => $id,
             'access_token' =>  Auth::user()->vktoken,
             'v' => $this->getVersion()
         ];

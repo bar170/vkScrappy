@@ -2,6 +2,8 @@
 namespace App\Lib\Front;
 
 
+use App\Lib\Objects\User\UserItem;
+
 /**
  * Класс для работы с иконками
  */
@@ -27,9 +29,9 @@ class Icon
             'long' => ['fas fa-hourglass-end text-danger', 'Посещение давно'],
             'banned' => ['fas fa-solid fa-ban text-danger', 'Забанен'],
             'deleted' => ['fas fa-solid fa-trash text-danger', 'Удален'],
-            'friend' => ['<fas fa-user-friends text-primary', 'Друг'],
-            'you_follower' => ['fas fa-ghost text-primary', 'Вы подписаны'],
-            'follower' => ['fas fa-mask text-primary', 'Подписан на вас'],
+            'friend' => ['fas fa-user-friends text-primary', 'Друг'],
+            'you_follower' => ['fas fa-ghost text-primary', 'Подписка от вас'],
+            'follower' => ['fas fa-mask text-primary', 'Подписка на вас'],
             'you_blacklist' => ['fas fa-toilet-paper text-danger', 'У вас в чс'],
             'blacklist' => ['fas fa-book-dead text-danger', 'Вы в чс'],
             'track' => ['fas fa-eye text-success', 'На трекере'],
@@ -64,6 +66,87 @@ class Icon
             }
         }
         return $res;
+    }
+
+    /**
+     * Формирует массив кодов для состояний-иконок на основе UserItem $contact
+     * @param UserItem $item
+     * @return array
+     */
+    private function getShortState(UserItem $item) : array
+    {
+        $states = [];
+
+        $stateOnline = $item->getOnline();
+        if ($stateOnline == 'онлайн') {
+            $online = 'online';
+        } else {
+            $online = 'offline';
+        }
+        $states[] = $online;
+
+        if ($stateOnline != 'онлайн'){
+            $lastSeen = $item->getLastSeenDate();
+            if ($lastSeen != $item->getUndefinedField()) {
+                //Давность 30 суток
+                $last = $item->getRecently(30);
+                if ($last == 'Недавно') {
+                    $recently  = 'recently';
+                    $states[] = $recently;
+                } else {
+                    $recently = 'long';
+                    $states[] = $recently;
+                }
+            }
+        }
+
+        $state = $item->getState();
+        if ($state == 'Профиль удален') {
+            $state = 'deleted';
+            $states[] = $state;
+        } elseif ($state == 'Профиль забанен') {
+            $state = 'banned';
+            $states[] = $state;
+        }
+
+        $areFriend = $item->getAreFriends();
+        switch ($areFriend) {
+            case 1 :
+                $areFriend = 'you_follower';
+                break;
+            case 2 :
+                $areFriend = 'follower';
+                break;
+            case 3 :
+                $areFriend = 'friend';
+                break;
+        }
+        $states[] = $areFriend;
+
+        $blacklisted = $item->getIsBlacklisted();
+        if ($blacklisted == 'Вы в ЧС у пользователя') {
+            $states[] = 'blacklist';
+        }
+        $blacklistedMe = $item->getIsBlacklistedByMe();
+        if ($blacklistedMe == 'Пользователь у вас в ЧС') {
+            $states[] = 'you_blacklist';
+        }
+
+        return $states;
+    }
+
+
+    /**
+     * Формирует массив состояний-иконок на основе UserItem $contact
+     * @param UserItem $contact
+     * @return array
+     */
+    public function getCurrentIcons(UserItem $contact): array
+    {
+        $states = $this->getShortState($contact);
+        $icons = $this->collectIcon($states);
+
+        return $icons;
     }
 
 }

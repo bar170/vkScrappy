@@ -3,9 +3,12 @@ namespace App\Lib\Objects;
 
 class Field
 {
-    private string $name;
-    private $value;
-    private bool $isExist;
+    protected string $name;
+    protected $value;
+    protected bool $isExist;
+    protected $item;
+
+    protected string $notExistField = Flags::NOT_EXIST_FIELD;
 
     public function __construct($name, $item)
     {
@@ -15,7 +18,13 @@ class Field
         $this->isExist = true;
         } else {
             $this->isExist = false;
+            $this->value = $this->getNotExistField();
         }
+    }
+
+    protected function getNotExistField() : string
+    {
+        return $this->notExistField;
     }
 
     public function getName(): string

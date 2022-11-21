@@ -1,14 +1,17 @@
 <?php
 namespace App\Lib\Objects;
 
+use App\Lib\Request\Request;
+
 /**
  * Генерирует объект в зависимости от имени поля
  */
 class Item
 {
     protected array $item;
+    protected Request $request;
 
-    protected const UNDEFINED_FIELD = 'Поле не определено';
+    protected string $undefinedField = Flags::UNDEFINED_FIELD;
 
     public function __construct(array $item)
     {
@@ -18,7 +21,7 @@ class Item
 
     public function getUndefinedField() : string
     {
-        return self::UNDEFINED_FIELD;
+        return $this->undefinedField;
     }
 
     /**
@@ -28,7 +31,7 @@ class Item
      */
     public function getField($name)
     {
-        $res = self::UNDEFINED_FIELD;
+        $res = $this->getUndefinedField();
         $field = new Field($name, $this->item);
 
         if ($field->isExist()) {
