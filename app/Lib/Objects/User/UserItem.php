@@ -442,6 +442,24 @@ class UserItem extends Item
     }
 
     /**
+     * Информация о том, есть ли на странице пользователя «огонёк».
+     * @return string
+     */
+    public function getTrending() : string
+    {
+        $res = $this->getField('trending');
+        switch ($res) {
+            case '1' :
+                $res = 'Да';
+                break;
+            case '0' :
+                $res = 'Нет';
+                break;
+        }
+        return $res;
+    }
+
+    /**
      * Информация о том, может ли текущий пользователь видеть аудиозаписи.
      * @return string
      */
@@ -560,6 +578,161 @@ class UserItem extends Item
     }
 
     /**
+     * Информация о том, известен ли номер мобильного телефона пользователя.
+     * Возвращаемые значения: 1 — известен, 0 — не известен.
+     * @return string
+     */
+    public function getHasMobile() : string
+    {
+        $res = $this->getField('has_mobile');
+        if ($res == 1) {
+            $res = 'Известен';
+        } else {
+            $res = 'Не известен';
+        }
+        return $res;
+    }
+
+    /**
+     * Информация о том, установил ли пользователь фотографию для профиля.
+     * Возвращаемые значения: 1 — установил, 0 — не установил.
+     * @return string
+     */
+    public function getHasPhoto() : string
+    {
+        $res = $this->getField('has_photo');
+        if ($res == 1) {
+            $res = 'Установил';
+        } else {
+            $res = 'Не установил';
+        }
+        return $res;
+    }
+
+    /**
+     * Название родного города.
+     * @return string
+     */
+    public function getHomeTown() : string
+    {
+        $res = $this->getField('home_town');
+        return $res;
+    }
+
+    /**
+     * Содержимое поля «Интересы» из профиля
+     * @return string
+     */
+    public function getInterests() : string
+    {
+        $res = $this->getField('interests');
+        return $res;
+    }
+
+    /**
+     * Любимые цитаты.
+     * @return string
+     */
+    public function getQuotes() : string
+    {
+        $res = $this->getField('quotes');
+        return $res;
+    }
+
+    /**
+     * Информация о том, есть ли пользователь в закладках у текущего пользователя. Возможные значения:
+     * 1 — есть;
+     * 0 — нет.
+     * @return string
+     */
+    public function getIsFavorite() : string
+    {
+        $res = $this->getField('is_favorite');
+        if ($res == 1) {
+            $res = 'В закладках';
+        } elseif ($res == 0) {
+            $res = 'Не в закладках';
+        }
+        return $res;
+    }
+
+    /**
+     * Информация о том, скрыт ли пользователь из ленты новостей текущего пользователя. Возможные значения:
+     * 1 — да;
+     * 0 — нет.
+     * @return string
+     */
+    public function getIsHiddenFromFeed() : string
+    {
+        $res = $this->getField('is_hidden_from_feed');
+        if ($res == 1) {
+            $res = 'Да';
+        } elseif ($res == 0) {
+            $res = 'Нет';
+        }
+        return $res;
+    }
+
+    /**
+     * Индексируется ли профиль поисковыми сайтами. Возможные значения::
+     * 1 — профиль скрыт от поисковых сайтов
+     * 0 — профиль доступен поисковым сайтам. (В настройках приватности: https://vk.com/settings?act=privacy, в пункте «Кому в интернете видна моя страница», выбрано значение «Всем»).
+     * @return string
+     */
+    public function getIsNoIndex() : string
+    {
+        $res = $this->getField('is_no_index');
+        if ($res == 1) {
+            $res = 'Скрыт';
+        } elseif ($res == 2) {
+            $res = 'Доступен';
+        }
+        return $res;
+    }
+
+    /**
+     * Девичья фамилия.
+     * @return string
+     */
+    public function getMaidenName() : string
+    {
+        $res = $this->getField('maiden_name');
+        return $res;
+    }
+
+    public function getMovies() : string
+    {
+        $res = $this->getField('movies');
+        return $res;
+    }
+
+    public function getMusic() : string
+    {
+        $res = $this->getField('music');
+        return $res;
+    }
+
+    /**
+     * Любимые телешоу.
+     * @return string
+     */
+    public function getTv() : string
+    {
+        $res = $this->getField('tv');
+        return $res;
+    }
+
+    /**
+     * Никнейм (отчество) пользователя.
+     * @return string
+     */
+    public function getNickname() : string
+    {
+        $res = $this->getField('nickname');
+        return $res;
+    }
+
+    /**
      * Информация о карьере пользователя. Объект, содержащий следующие поля:
      * group_id (integer) — идентификатор сообщества (если доступно, иначе company);
      * company (string) — название компании (если доступно, иначе group_id);
@@ -639,98 +812,14 @@ class UserItem extends Item
     }
 
 
-    /**
-     * Название деятельности
-     * @return string
-     */
-    public function getOccupationName() : string
+    public function getOccupation() : OccupationEntity
     {
-        return $this->occupation->getValue('name');
+        return $this->occupation;
     }
 
-    /**
-     * Тип деятельности
-     * @return string
-     */
-    public function getOccupationType() : string
+    public function getCounters() : CounterEntity
     {
-        return $this->occupation->getValue('type');
+        return $this->counters;
     }
-
-    /**
-     * Год окончания деятельности
-     * @return string
-     */
-    public function getGraduationYear() : string
-    {
-        return $this->occupation->getValue('graduate_year');
-    }
-
-
-    public function getAlbumsCounter(): string
-    {
-        return $this->counters->getAlbumsCounter();
-    }
-
-    public function getVideosCounter(): string
-    {
-        return $this->counters->getVideosCounter();
-    }
-
-    public function getAudiosCounter(): string
-    {
-        return $this->counters->getAudiosCounter();
-    }
-
-    public function getPhotosCounter(): string
-    {
-        return $this->counters->getPhotosCounter();
-    }
-
-    public function getFriendsCounter(): string
-    {
-        return $this->counters->getFriendsCounter();
-    }
-
-    public function getOnlineFriendsCounter(): string
-    {
-        return $this->counters->getOnlineFriendsCounter();
-    }
-
-    public function getMutualFriendsCounter(): string
-    {
-        return $this->counters->getMutualFriendsCounter();
-    }
-
-    public function getUserVideosCounter(): string
-    {
-        return $this->counters->getUserVideosCounter();
-    }
-
-    public function getFollowersCounter(): string
-    {
-        return $this->counters->getFollowersCounter();
-    }
-
-    public function getPagesCounter(): string
-    {
-        return $this->counters->getPagesCounter();
-    }
-
-    public function getSubscriptionsCounter(): string
-    {
-        return $this->counters->getSubscriptionsCounter();
-    }
-
-    public function getPostsCounter(): string
-    {
-        return $this->counters->getPostsCounter();
-    }
-
-    public function getClipsFollowersCounter(): string
-    {
-        return $this->counters->getClipsFollowersCounter();
-    }
-
 
 }

@@ -18,7 +18,7 @@ class AuthVk extends Request
     {
         $this->setRedirectUri('http://www.vk-scrappy.loc/home/update_token');
         $this->setDisplay('page');
-        $this->setScope('friends,groups');
+        $this->setScope('friends,groups,offline');
         $this->setResponseType('token');
 
         parent::__construct();

@@ -35,7 +35,9 @@ class Icon
             'you_blacklist' => ['fas fa-toilet-paper text-danger', 'У вас в чс'],
             'blacklist' => ['fas fa-book-dead text-danger', 'Вы в чс'],
             'track' => ['fas fa-eye text-success', 'На трекере'],
-            'favorite' => ['<fas fa-star text-success', 'В избранном'],
+            'favorite' => ['fas fa-star text-success', 'В избранном'],
+            'bookmark' => ['fas fa-bookmark text-danger', 'Вк закладка'],
+            'isHiddenFromFeed' => ['fas fa-eye-slash', 'Скрыт из новостей']
 
         ];
 
@@ -130,6 +132,15 @@ class Icon
         $blacklistedMe = $item->getIsBlacklistedByMe();
         if ($blacklistedMe == 'Пользователь у вас в ЧС') {
             $states[] = 'you_blacklist';
+        }
+
+        $isBookmark = $item->getIsFavorite();
+        if ($isBookmark == 'В закладках') {
+            $states[] = 'bookmark';
+        }
+        $isHiddenFromFeed = $item->getIsHiddenFromFeed();
+        if ($isHiddenFromFeed == 'Да') {
+            $states[] = 'isHiddenFromFeed';
         }
 
         return $states;

@@ -30,96 +30,69 @@ class CounterEntity extends Entity
         parent::__construct($entity);
     }
 
-    /**
-     * @param $name - имя счетчика
-     */
-    private function getCounter($name) : string
-    {
-        $res = $this->getUndefinedField();
-        if (key_exists($name, $this->entity)) {
-            $res = (string) $this->entity[$name];
-        }
-
-        return $res;
-    }
-
     public function getAlbumsCounter(): string
     {
-        $res = $this->getCounter('albums');
-        return $res;
+        return $this->getValue('albums');
     }
 
     public function getVideosCounter(): string
     {
-        $res = $this->getCounter('videos');
-        return $res;
+        return $this->getValue('videos');
     }
 
     public function getAudiosCounter(): string
     {
-        $res = $this->getCounter('audios');
-        return $res;
+        return $this->getValue('audios');
     }
 
     public function getPhotosCounter(): string
     {
-        $res = $this->getCounter('photos');
-        return $res;
+        return $this->getValue('photos');
     }
 
     public function getFriendsCounter(): string
     {
-        $res = $this->getCounter('friends');
-        return $res;
+        return $this->getValue('friends');
     }
 
     public function getOnlineFriendsCounter(): string
     {
-        $res = $this->getCounter('online_friends');
-        return $res;
+        return $this->getValue('online_friends');
     }
 
     public function getMutualFriendsCounter(): string
     {
-        $res = $this->getCounter('mutual_friends');
-        return $res;
+        return $this->getValue('mutual_friends');
     }
 
     public function getUserVideosCounter(): string
     {
-        $res = $this->getCounter('user_videos');
-        return $res;
+        return $this->getValue('user_videos');
     }
 
     public function getFollowersCounter(): string
     {
-        $res = $this->getCounter('followers');
-        return $res;
+        return $this->getValue('followers');
     }
 
     public function getPagesCounter(): string
     {
-        $res = $this->getCounter('pages');
-        return $res;
+        return $this->getValue('pages');
     }
 
     public function getSubscriptionsCounter(): string
     {
-        $res = $this->getCounter('subscriptions');
-        return $res;
+        return $this->getValue('subscriptions');
     }
 
     public function getPostsCounter(): string
     {
-        $res = $this->getCounter('posts');
-        return $res;
+        return $this->getValue('posts');
     }
 
     public function getClipsFollowersCounter(): string
     {
-        $res = $this->getCounter('clips_followers');
-        return $res;
+        return $this->getValue('clips_followers');
     }
-
 
 }

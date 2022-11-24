@@ -38,14 +38,13 @@ class ListField
         $this->addField('common_count' , 'user', 10);
         $this->addField('contacts' , 'user', 30);
         $this->addField('counters' , 'user', 20);
-        $this->addField('domain' , 'user', 20);
+        $this->addField('domain' , 'user', 10);
         $this->addField('friend_status' , 'user', 10);
         $this->addField('has_mobile' , 'user', 40);
         $this->addField('has_photo' , 'user', 50);
         $this->addField('home_town' , 'user', 20);
         $this->addField('interests' , 'user', 80);
         $this->addField('is_favorite' , 'user', 30);
-        $this->addField('is_friend' , 'user', 20);
         $this->addField('is_hidden_from_feed' , 'user', 40);
         $this->addField('is_no_index' , 'user', 80);
         $this->addField('last_seen' , 'user', 10);
@@ -63,7 +62,6 @@ class ListField
         $this->addField('relatives' , 'user', 50);
         $this->addField('relation' , 'user', 30);
         $this->addField('schools' , 'user', 90);
-        $this->addField('screen_name' , 'user', 10);
         $this->addField('sex' , 'user', 0);
         $this->addField('site' , 'user', 40);
         $this->addField('skype' , 'user', 40);

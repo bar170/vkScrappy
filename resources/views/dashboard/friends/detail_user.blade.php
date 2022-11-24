@@ -22,8 +22,7 @@
                             <p><img src="{{ $item->getPhoto200() }}" alt="Ава200">
                             </p>
                             {{-- Вывод иконок состояний пользователя--}}
-                            <x-icons-user-component :item="$item"/>
-
+                            <x-users.icons-component :item="$item"/>
                             <hr>
                             <i class="fas fa-eye text-success"></i> Добавлен ли в трекер? <br>
                             <i class="fas fa-star text-success"></i> Находится ли в избранном <br>
@@ -48,7 +47,7 @@
                                 Время: <span class="float-right">{{ $item->getLastSeenTime() }} </span><br>
                             <hr>
                             {{-- Вывод счетчиков пользователя--}}
-                            <x-counters-user-component :item="$item"/>
+                            <x-users.counters-component :item="$item"/>
                             <hr>
                             <h6 class="text-primary">Состояние</h6>
                                 Тип: <span class="float-right">{{ $item->getIsClosed() }} </span><br>
@@ -85,10 +84,25 @@
                                 Окончание работы: <span class="float-right">{{ $item->getCareerUntil() }} </span><br>
                             </p>
                             <hr>
-                            <h6 class="text-primary">Occupation</h6>
-                                Название: <span class="float-right">{{ $item->getOccupationName() }} </span><br>
-                                Тип: <span class="float-right">{{ $item->getOccupationType() }} </span><br>
-                                Год окончания: <span class="float-right">{{ $item->getGraduationYear() }} </span><br>
+                            {{-- Вывод occupation--}}
+                            <x-users.occupation-component :item="$item"/>
+                            <hr>
+                            <h6 class="text-primary">Разное</h6>
+                            Известен ли номер телефона: <span class="float-right">{{ $item->getHasMobile() }} </span><br>
+                            Установил ли аву: <span class="float-right">{{ $item->getHasPhoto() }} </span><br>
+                            Родной город: <span class="float-right">{{ $item->getHomeTown() }} </span><br>
+                            Интересы: <span class="float-right">{{ $item->getInterests() }} </span><br>
+                            В закладках ли у вас: <span class="float-right">{{ $item->getIsFavorite() }} </span><br>
+                            Скрыт ли из ваших новостей: <span class="float-right">{{ $item->getIsHiddenFromFeed() }} </span><br>
+                            Видимость для поисковиков: <span class="float-right">{{ $item->getIsNoIndex() }} </span><br>
+                            Девичья фамилия: <span class="float-right">{{ $item->getMaidenName() }} </span><br>
+                            Фильмы: <span class="float-right">{{ $item->getMovies() }} </span><br>
+                            Музыка: <span class="float-right">{{ $item->getMusic() }} </span><br>
+                            Никнейм (отчество): <span class="float-right">{{ $item->getNickname() }} </span><br>
+                            Любимые цитаты: <span class="float-right">{{ $item->getQuotes() }} </span><br>
+                            В тренде (огонек): <span class="float-right">{{ $item->getTrending() }} </span><br>
+                            Любимые телешоу: <span class="float-right">{{ $item->getTv() }} </span><br>
+
                             </p>
                         </div>
                     </div>
@@ -135,6 +149,12 @@
                     Добавить трекер <br>
                     Скрыть все неопределенные поля <br>
                     Узнать ID профиля по domain<br>
+                    personal не отработан<br>
+                    relatives не отработан<br>
+                    military не отработан<br>
+                    relation не отработан<br>
+                    schools не отработан<br>
+                    universities не отработан<br>
                 </div>
             </div>
         </div>

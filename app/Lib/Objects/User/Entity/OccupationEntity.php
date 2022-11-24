@@ -3,6 +3,18 @@ namespace App\Lib\Objects\User\Entity;
 
 use App\Lib\Objects\Flags;
 
+
+/**
+ * Информация о текущем роде занятия пользователя.
+ * Объект, содержащий следующие поля:
+ * type (string) — тип. Возможные значения:
+ * work — работа;
+ * school — среднее образование;
+ * university — высшее образование.
+ * id (integer) — идентификатор школы, вуза, сообщества компании (в которой пользователь работает);
+ * name (string) — название школы, вуза или места работы;
+ */
+
 class OccupationEntity extends Entity
 {
     public function __construct($entity)
@@ -17,23 +29,25 @@ class OccupationEntity extends Entity
         if ($entity != $this->getUndefinedField()) {
             if (count($entity) < 1) {
 
-                $entity['id'] = $this->getRemoveField();
-                $entity['name'] = $this->getRemoveField();
-                $entity['type'] = $this->getRemoveField();
-                $entity['graduate_year'] = $this->getRemoveField();
-                $entity['country_id'] = $this->getRemoveField();
-                $entity['city_id'] = $this->getRemoveField();
+                $res['id'] = $this->getRemoveField();
+                $res['name'] = $this->getRemoveField();
+                $res['type'] = $this->getRemoveField();
+                $res['graduate_year'] = $this->getRemoveField();
+                $res['country_id'] = $this->getRemoveField();
+                $res['city_id'] = $this->getRemoveField();
+            } else {
+                $res = $entity;
             }
         } else {
-            $entity['id'] = $this->getUndefinedField();
-            $entity['name'] = $this->getUndefinedField();
-            $entity['type'] = $this->getUndefinedField();
-            $entity['graduate_year'] = $this->getUndefinedField();
-            $entity['country_id'] = $this->getUndefinedField();
-            $entity['city_id'] = $this->getUndefinedField();
+            $res['id'] = $this->getUndefinedField();
+            $res['name'] = $this->getUndefinedField();
+            $res['type'] = $this->getUndefinedField();
+            $res['graduate_year'] = $this->getUndefinedField();
+            $res['country_id'] = $this->getUndefinedField();
+            $res['city_id'] = $this->getUndefinedField();
         }
 
-        $this->entity = $entity;
+        $this->entity = $res;
     }
 
     public function getIdOccupation(): string
