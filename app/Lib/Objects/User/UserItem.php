@@ -1,9 +1,11 @@
 <?php
 namespace App\Lib\Objects\User;
 
+
+
 use App\Lib\Objects\Item;
-use App\Lib\Objects\User\Entity\CounterEntity;
-use App\Lib\Objects\User\Entity\OccupationEntity;
+use App\Lib\Objects\Entity\User\CounterEntity;
+use App\Lib\Objects\Entity\User\OccupationEntity;
 use App\Lib\Request\Friends\FriendR;
 use DateTimeImmutable;
 
@@ -526,7 +528,7 @@ class UserItem extends Item
     }
 
     /**
-     * Информация о городе, указанном на странице пользователя в разделе «Контакты»
+     * Информация о стране, указанном на странице пользователя в разделе «Контакты»
      * @return string
      */
     public function getCountry() : string

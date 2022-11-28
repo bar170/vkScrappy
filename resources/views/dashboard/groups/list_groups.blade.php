@@ -40,7 +40,7 @@
                     <tbody>
                     @foreach ($groups as $group)
                     <tr>
-                        <td><img src="{{ $group->getPhoto50() }}" alt="ава"></td>
+                        <td> <a href="{{ route('group.detail', ['id' => $group->getId()]) }}"> <img src="{{ $group->getPhoto50() }}" alt="ава"> </a> </td>
                         <td><a href="https://vk.com/club{{$group->getId()}}">{{ $group->getName() }}</a> </td>
                         <td> {{ $group->getScreenName() }} </td>
                         <td> {{ $group->getIsClosed() }} </td>

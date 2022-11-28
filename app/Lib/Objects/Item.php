@@ -19,17 +19,13 @@ class Item
         date_default_timezone_set('Europe/Moscow');
     }
 
-    public function getUndefinedField() : string
-    {
-        return $this->undefinedField;
-    }
-
     /**
      * Вернуть значение поля по имени в "сыром виде"
+     * Если поле не определено - вернуть $this->getUndefinedField()
      * @param $name
-     * @return mixed|string
+     * @return array|string
      */
-    public function getField($name)
+    protected function getField($name)
     {
         $res = $this->getUndefinedField();
         $field = new Field($name, $this->item);
@@ -40,6 +36,12 @@ class Item
 
         return $res;
     }
+
+    public function getUndefinedField() : string
+    {
+        return $this->undefinedField;
+    }
+
 
     public function getId()
     {

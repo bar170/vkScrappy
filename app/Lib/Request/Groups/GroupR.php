@@ -17,18 +17,14 @@ class GroupR extends Request
 
     }
 
-    // Добавить все возможные поля для group.get
-    public function addAllFields(): void
-    {
-        $allFields = $this->listField->getFieldsByWeight(11);
-        $this->addFields($allFields);
-
-    }
-
-    public function getGroups()
+    public function getGroups($weight = 20, bool $pure = false)
     {
         $this->setMethod('groups.get');
-        $this->addAllFields();
+        $this->setFieldsByWeight($weight);
+
+        if ($pure) {
+            $this->clearAllFields();
+        }
 
         $get = [
             'fields' => $this->getFields(),
@@ -41,4 +37,26 @@ class GroupR extends Request
 
         return $res;
     }
+
+    public function getGroup($id, $weight = 20, bool $pure = false)
+    {
+        $this->setMethod('groups.getById');
+        $this->setFieldsByWeight($weight);
+
+        if ($pure) {
+            $this->clearAllFields();
+        }
+
+        $get = [
+            'group_id' => $id,
+            'fields' => $this->getFields(),
+            'access_token' =>  Auth::user()->vktoken,
+            'v' => $this->getVersion()
+        ];
+
+        $res = $this->send($get);
+
+        return $res;
+    }
+
 }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Lib\Objects\User\Entity;
+namespace App\Lib\Objects\Entity;
 
 
 use App\Lib\Objects\Flags;

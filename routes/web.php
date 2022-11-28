@@ -33,9 +33,10 @@ Route::get('/dashboard/user/', [Friends::class, 'getDetailUserFromForm'])->name(
 
 
 Route::get('/dashboard/groups/list', [Groups::class, 'getListGroups'])->name('groups.list');
+Route::get('/dashboard/groups/{id}', [Groups::class, 'getDetailGroup'])->name('group.detail');
 
-//2 строки ниже - не трогать
-//2 строка должна вести на домашний раздел пользователя
+//Две строки ниже - не трогать
+//Вторая строка должна вести на домашний раздел пользователя
 Auth::routes();
 Route::get('/home/', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard.index');
 

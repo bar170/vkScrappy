@@ -1,30 +1,58 @@
 <?php
 namespace App\Lib\Objects;
 
+
+/**
+ * Получает массив $item, ищет в нем ключ name.
+ * Если не находит - присваивает value = notExistField (Поля не существует).
+ * Если ключ существует - в value определяется значение этого ключа. Или строка и массив
+ */
 class Field
 {
-    protected string $name;
-    protected $value;
-    protected bool $isExist;
-    protected $item;
+    private string $name;
+    private $value;
+    private bool $isExist;
+    private bool $isSimple;
 
-    protected string $notExistField = Flags::NOT_EXIST_FIELD;
 
-    public function __construct($name, $item)
+    public function __construct(string $name, array $item)
     {
-        if (array_key_exists($name, $item)) {
+        $this->setState($name, $item);
+        $this->setIsSimple();
+    }
+
+    /**
+     * Устанавливает состояние объекта
+     * Если name не найден в item, установить в value значение - null
+     * @param string $name
+     * @param array $item
+     * @return void
+     */
+    private function setState(string $name, array $item): void
+    {
         $this->name = $name;
-        $this->value = $item[$name];
-        $this->isExist = true;
+        if (array_key_exists($name, $item)) {
+            $this->value = $item[$name];
+            $this->isExist = true;
         } else {
             $this->isExist = false;
-            $this->value = $this->getNotExistField();
+            $this->value = null;
         }
     }
 
-    protected function getNotExistField() : string
+    /**
+     * Определяет простоту поля.
+     * Если true - простое поле
+     * если false - поле является объектом
+     * @return void
+     */
+    private function setIsSimple(): void
     {
-        return $this->notExistField;
+        $res = true;
+        if (is_array($this->value)) {
+            $res = false;
+        }
+        $this->isSimple = $res;
     }
 
     public function getName(): string
@@ -32,6 +60,9 @@ class Field
         return $this->name;
     }
 
+    /**
+     * @return array|string|null
+     */
     public function getValue()
     {
         return $this->value;
@@ -40,5 +71,10 @@ class Field
     public function isExist(): bool
     {
         return $this->isExist;
+    }
+
+    public function isSimple(): bool
+    {
+        return $this->isSimple();
     }
 }

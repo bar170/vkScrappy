@@ -75,26 +75,26 @@ class ListField
 
     private function setGroupFields(): void
     {
-        $this->addField('activity' , 'group', 30);
         $this->addField('addresses' , 'group', 80);
+        $this->addField('age_limits' , 'group', 20);
+        $this->addField('ban_info' , 'group', 40);
         $this->addField('can_create_topic' , 'group', 80);
         $this->addField('can_message' , 'group', 80);
         $this->addField('can_post' , 'group', 80);
         $this->addField('can_see_all_posts' , 'group', 20);
-        $this->addField('can_upload_doc' , 'group', 80);
         $this->addField('can_upload_video' , 'group', 80);
         $this->addField('city' , 'group', 10);
         $this->addField('country' , 'group', 10);
         $this->addField('contacts' , 'group', 30);
         $this->addField('counters' , 'group', 10);
-        $this->addField('ban_info' , 'group', 30);
-        $this->addField('is_messages_blocked' , 'group', 30);
         $this->addField('description' , 'group', 0);
+        $this->addField('fixed_post' , 'group', 40);
         $this->addField('has_photo' , 'group', 50);
         $this->addField('is_favorite' , 'group', 20);
+        $this->addField('is_messages_blocked' , 'group', 30);
+        $this->addField('is_hidden_from_feed' , 'group', 30);
         $this->addField('links' , 'group', 50);
         $this->addField('market' , 'group', 90);
-        $this->addField('main_section' , 'group', 90);
         $this->addField('member_status' , 'group', 20);
         $this->addField('members_count' , 'group', 0);
         $this->addField('place' , 'group', 80);
