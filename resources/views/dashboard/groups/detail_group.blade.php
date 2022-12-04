@@ -37,6 +37,8 @@
                                 Количество участников: <span class="float-right">{{ $item->getMembersCount() }} </span><br>
                                 Сайт: <span class="float-right">{{ $item->getSite() }} </span><br>
                             <hr>
+                                Статус участника: <span class="float-right">{{ $item->getMemberStatusEntity()->getDescription() }} </span><br>
+                            <hr>
                             <h6 class="text-primary">Раскидать</h6>
                                 Права админа: <span class="float-right">{{ $item->getIsAdmin() }} </span><br>
                                 Возрастное ограничение: <span class="float-right">{{ $item->getAgeLimit() }} </span><br>
@@ -58,8 +60,20 @@
                                 Возможность оставлять записи на стене: <span class="float-right">{{ $item->getCanPost() }} </span><br>
                                 Возможность видеть чужие записи на стене: <span class="float-right">{{ $item->getCanSeeAllPosts() }} </span><br>
                                 Возможность загружать видеозаписи в группу: <span class="float-right">{{ $item->getCanUploadVideos() }} </span><br>
-
                             <hr>
+                                <h6 class="text-primary">Блок адресов</h6>
+                                <x-groups.addresses-component :item="$item"/>
+                            <hr>
+                                <h6 class="text-primary">Бан</h6>
+                                <x-groups.ban-group-component :item="$item"/>
+                            <hr>
+                                <h6 class="text-primary">Контакты</h6>
+                                <x-groups.contacts-group-component :item="$item"/>
+                            <hr>
+                                <h6 class="text-primary">Счетчики</h6>
+                                <x-groups.counter-group-component :item="$item"/>
+                            <hr>
+
                         </div>
                     </div>
                 </div>
@@ -85,16 +99,9 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     Действия: <br>
-                    Сущность addresses <br>
-                    Сущность addresses <br>
-                    Сущность ban_info <br>
-                    Сущность contacts <br>
-                    Сущность counters <br>
                     Сущность fixed_post <br>
                     Сущность links <br>
                     Сущность market <br>
-                    Сущность member_status <br>
-                    Сущность place <br>
                     Сущность start_date + finish_date вобще сущность дата <br>
 
                 </div>
