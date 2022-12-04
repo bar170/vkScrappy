@@ -1,8 +1,6 @@
 <?php
 namespace App\Lib\Objects\User;
 
-
-
 use App\Lib\Objects\Item;
 use App\Lib\Objects\Entity\User\CounterEntity;
 use App\Lib\Objects\Entity\User\OccupationEntity;

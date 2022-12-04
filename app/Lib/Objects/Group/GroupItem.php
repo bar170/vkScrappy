@@ -1,10 +1,22 @@
 <?php
 namespace App\Lib\Objects\Group;
 
+
 use App\Lib\Objects\Item;
+use App\Lib\Objects\Entity\Group\AddressesEntity;
+use App\Lib\Objects\Entity\Group\BanInfoEntity;
+use App\Lib\Objects\Entity\Group\ContactsEntity;
+use App\Lib\Objects\Entity\Group\CounterEntity;
+use App\Lib\Objects\Entity\Group\MemberStatusEntity;
 
 class GroupItem extends Item
 {
+
+    private AddressesEntity $addressesEntity;
+    private BanInfoEntity $banInfoEntity;
+    private ContactsEntity $contactsEntity;
+    private CounterEntity $counterEntity;
+    private MemberStatusEntity $memberStatusEntity;
 
     public function __construct(array $item, bool $isFull = false)
     {
@@ -12,12 +24,97 @@ class GroupItem extends Item
 
         // Создавать дополнительные запросы к апи вк только для детального просмотра
         if ($isFull) {
-
+            $this->setAddresses();
+            $this->setBanEntity();
+            $this->setContactsEntity();
+            $this->setCounterEntity();
+            $this->setMemberStatusEntity();
         }
 
     }
 
-    //Базовые поля
+    /**
+     * Определить сущность Адреса
+     * @return void
+     */
+    private function setAddresses() : void
+    {
+        $entity = $this->getField('addresses');
+        $this->addressesEntity = new AddressesEntity($entity);
+    }
+
+    /**
+     * Определить сущность Бана
+     * @return void
+     */
+    private function setBanEntity(): void
+    {
+        $entity = $this->getField('ban_info');
+        $this->banInfoEntity = new BanInfoEntity($entity);
+    }
+
+    /**
+     * Определить сущность Контактов
+     * @return void
+     */
+    private function setContactsEntity(): void
+    {
+        $entity = $this->getField('contacts');
+        $this->contactsEntity = new ContactsEntity($entity);
+    }
+
+    /**
+     * Определить сущность Счетчики
+     * @return void
+     */
+    private function setCounterEntity(): void
+    {
+        $entity = $this->getField('counters');
+        $this->counterEntity = new CounterEntity($entity);
+    }
+
+    /**
+     * Определить сущность Статуса участника
+     * @return void
+     */
+    private function setMemberStatusEntity(): void
+    {
+        $entity = $this->getField('member_status');
+        $this->memberStatusEntity = new MemberStatusEntity($entity);
+    }
+
+    /**
+     ** ГЕТТЕРЫ СУЩНОСТЕЙ **
+     */
+
+    public function getAddressesEntity() : AddressesEntity
+    {
+        return $this->addressesEntity;
+    }
+
+    public function getBanInfoEntity() : BanInfoEntity
+    {
+        return $this->banInfoEntity;
+    }
+
+    public function getContactsEntity() : ContactsEntity
+    {
+        return $this->contactsEntity;
+    }
+
+    public function getCountersEntity() : CounterEntity
+    {
+        return $this->counterEntity;
+    }
+
+    public function getMemberStatusEntity() : MemberStatusEntity
+    {
+        return $this->memberStatusEntity;
+    }
+
+    /**
+     ** БАЗОВЫЕ ПОЛЯ **
+     */
 
     public function getName(): string
     {
@@ -453,4 +550,5 @@ class GroupItem extends Item
 
         return $res;
     }
+
 }

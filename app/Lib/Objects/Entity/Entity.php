@@ -10,6 +10,7 @@ class Entity
     protected bool $isExist;
     protected string $undefinedField = Flags::UNDEFINED_FIELD;
     protected string $removeField = Flags::REMOVE_FIELD;
+    protected string $uncorrectField = Flags::UNCORRECT_FIELD;
 
     public function __construct($entity)
     {
@@ -36,14 +37,39 @@ class Entity
         }
     }
 
-    public function getValue($name) : string
+    /**
+     * Получить значение из массива или значение константы
+     * Необходимо когда у сущности неизвестное количество строк, например link в группах
+     * @param string $key
+     * @param array $list
+     * @return string
+     */
+    protected function getInnerValue(array $list, string $key): string
     {
         $res = $this->getUndefinedField();
-        if (key_exists($name, $this->entity)) {
-            $res = $this->entity[$name];
+        if (key_exists($key, $list))
+        {
+            $res = (string) $list[$key];
         }
         return $res;
     }
+
+    public function getIsExist(): bool
+    {
+        return $this->isExist;
+    }
+
+    /**
+     * Получить значение по ключу из $this->entity,
+     * не путать со вспомогательным методом getInnerValue
+     * @param string $name
+     * @return string
+     */
+    public function getValue(string $name = '') : string
+    {
+        return $this->getInnerValue($this->entity, $name);
+    }
+
 
     protected function getUndefinedField(): string
     {
@@ -53,6 +79,11 @@ class Entity
     public function getRemoveField(): string
     {
         return $this->removeField;
+    }
+
+    public function getUncorrectField(): string
+    {
+        return $this->uncorrectField;
     }
 
 

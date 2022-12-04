@@ -9,11 +9,6 @@ class CountersComponent extends Component
 
     public array $counters;
 
-    /**
-     * Create a new component instance.
-     *
-     * @return void
-     */
     public function __construct(UserItem $item)
     {
         $entity = $item->getCounters();

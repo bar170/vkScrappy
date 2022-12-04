@@ -1,8 +1,6 @@
 <?php
 namespace App\Lib\Objects\Entity\User;
 
-
-
 use App\Lib\Objects\Entity\Entity;
 
 /**
